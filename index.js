@@ -8,7 +8,7 @@ const maxGuessesMessage = document.getElementById('max-guesses');
 const numberOfGuessesMessage = document.getElementById('number-of-guesses');
 const correctMessage = document.getElementById('correct');
 
-let targetNumber;
+let targetNumber = 40; /* added a target number and set it to 40 */
 let attempts = 0;
 const maxNumberOfAttempts = 5;
 
@@ -51,8 +51,8 @@ function checkGuess() {
     numberOfGuessesMessage.style.display = '';
     numberOfGuessesMessage.innerHTML = `You guessed ${guess}. <br> ${remainingAttempts} guesses remaining`;
   }
-
-  if (attempts ==== maxNumberOfAttempts) {
+/* bug: deleted fourth set of = */
+  if (attempts === maxNumberOfAttempts) { 
     submitButton.disabled = true;
     guessInput.disabled = true;
   }
@@ -67,17 +67,17 @@ function hideAllMessages() {
     messages[elementIndex].style.display = 'none';
   }
 }
-
-funtion setup() {
+/* bug: fixed from funtion to function */
+function setup() {
   // Get random number
   targetNumber = getRandomNumber(1, 100);
   console.log(`target number: ${targetNumber}`);
 
-  // Reset number of attempts
-  maxNumberOfAttempts = 0;
+  // Reset number of attempts <== bug: fixed this from 0 to 5
+  maxNumberOfAttempts = 5;
 
   // Enable the input and submit button
-  submitButton.disabeld = false;
+  submitButton.disabled = false; /* bug: incorrect spelling from disabeld to disabled */
   guessInput.disabled = false;
 
   hideAllMessages();
