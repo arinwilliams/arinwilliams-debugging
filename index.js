@@ -2,15 +2,16 @@ const guessInput = document.getElementById('guess');
 const submitButton = document.getElementById('submit');
 const resetButton = document.getElementById('reset');
 const messages = document.getElementsByClassName('message');
+// console.log(messages); troubleshooting messsages variable
 const tooHighMessage = document.getElementById('too-high');
 const tooLowMessage = document.getElementById('too-low');
 const maxGuessesMessage = document.getElementById('max-guesses');
 const numberOfGuessesMessage = document.getElementById('number-of-guesses');
 const correctMessage = document.getElementById('correct');
 
-let targetNumber = 40; /* added a target number and set it to 40 */
+let targetNumber ;
 let attempts = 0;
-const maxNumberOfAttempts = 5;
+let maxNumberOfAttempts = 5;
 
 // Returns a random number from min (inclusive) to max (exclusive)
 // Usage:
@@ -24,8 +25,8 @@ function getRandomNumber(min, max) {
 
 function checkGuess() {
   // Get value from guess input element
-  const guess = parseInt(guessInput.value, 10);
-  attempts = attempts + 1;
+  let guess = parseInt(guessInput.value, 10);
+  attempts += 1; // set attempts +=1  OR could write attempts = attempts + 1
 
   hideAllMessages();
 
@@ -37,13 +38,15 @@ function checkGuess() {
 
     submitButton.disabled = true;
     guessInput.disabled = true;
+
+    console.log(messages[elementIndex]) // added console log 
   }
 
   if (guess !== targetNumber) {
     if (guess < targetNumber) {
       tooLowMessage.style.display = '';
     } else {
-      tooLowMessage.style.display = '';
+      tooHighMessage.style.display = '';  // change low to high
     }
 
     const remainingAttempts = maxNumberOfAttempts - attempts;
@@ -62,8 +65,9 @@ function checkGuess() {
   resetButton.style.display = '';
 }
 
+//deleted = because it creates one too many loops
 function hideAllMessages() {
-  for (let elementIndex = 0; elementIndex <= messages.length; elementIndex++) {
+  for (let elementIndex = 0; elementIndex < messages.length; elementIndex++) { 
     messages[elementIndex].style.display = 'none';
   }
 }
@@ -73,8 +77,8 @@ function setup() {
   targetNumber = getRandomNumber(1, 100);
   console.log(`target number: ${targetNumber}`);
 
-  // Reset number of attempts <== bug: fixed this from 0 to 5
-  maxNumberOfAttempts = 5;
+  // Changed this from maxNumberOfAttempts to number of attempts
+  attempts = 0;
 
   // Enable the input and submit button
   submitButton.disabled = false; /* bug: incorrect spelling from disabeld to disabled */
@@ -88,3 +92,19 @@ submitButton.addEventListener('click', checkGuess);
 resetButton.addEventListener('click', setup);
 
 setup();
+
+
+
+
+/* 
+
+Pay attention to the error in the console; it is related to how you declare the variable to which you reassign a value. 
+It should not be a constant.
+
+Also, log messages[elementIndex] to the console inside the hideAllMessages function to fix the condition 
+elementIndex <= messages.length inside the for loop (it is currently incorrect).
+
+There is no need to assign a value to targetNumber , as it is assigned randomly in the code.
+Additionally, you need to fix the output of messages depending on the number entered by the user. This will be much easier after fixing the bugs described above.
+
+*/
